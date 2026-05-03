@@ -12,6 +12,9 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  eslint: {
+    dirs: ["app", "lib", "styles", "types"],
+  },
 
   /**
    * 보안 응답 헤더

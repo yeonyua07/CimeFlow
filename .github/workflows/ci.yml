@@ -36,4 +36,4 @@ jobs:
         run: npm run build
 
       - name: Lint
-        run: npx next lint app lib styles types
+        run: npm run lint

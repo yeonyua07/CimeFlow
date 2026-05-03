@@ -14,7 +14,7 @@
     "start": "node server.js",
     "start:ui": "node server.js",
     "start:relay": "node relay-server.js",
-    "lint": "next lint app lib styles types"
+    "lint": "next lint"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
