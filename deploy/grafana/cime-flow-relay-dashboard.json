@@ -1,0 +1,238 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "cime_flow_relay_sessions",
+          "legendFormat": "sessions",
+          "refId": "A"
+        },
+        {
+          "expr": "cime_flow_relay_active_hubs",
+          "legendFormat": "hubs",
+          "refId": "B"
+        },
+        {
+          "expr": "cime_flow_relay_active_channels",
+          "legendFormat": "channels",
+          "refId": "C"
+        }
+      ],
+      "title": "Active Load",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(cime_flow_relay_batch_items_sent_total[1m])",
+          "legendFormat": "items/s",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(cime_flow_relay_batches_sent_total[1m])",
+          "legendFormat": "batches/s",
+          "refId": "B"
+        }
+      ],
+      "title": "Fan-out Throughput",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(cime_flow_relay_ws_rejected_total[5m])",
+          "legendFormat": "ws rejected/s",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(cime_flow_relay_http_rate_limited_total[5m])",
+          "legendFormat": "http limited/s",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(cime_flow_relay_redis_errors_total[5m])",
+          "legendFormat": "redis errors/s",
+          "refId": "C"
+        }
+      ],
+      "title": "Operational Errors",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "cime_flow_relay_ready",
+          "legendFormat": "ready",
+          "refId": "A"
+        },
+        {
+          "expr": "cime_flow_relay_draining",
+          "legendFormat": "draining",
+          "refId": "B"
+        },
+        {
+          "expr": "cime_flow_relay_redis_enabled",
+          "legendFormat": "redis",
+          "refId": "C"
+        }
+      ],
+      "title": "Instance State",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 39,
+  "tags": ["cime-flow", "relay"],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "hide": 0,
+        "includeAll": false,
+        "label": "Prometheus",
+        "multi": false,
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "CimeFlow Relay",
+  "uid": "cime-flow-relay",
+  "version": 1,
+  "weekStart": ""
+}

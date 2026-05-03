@@ -1,0 +1,75 @@
+services:
+  cime-flow-ui:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_CIME_RELAY_HTTP_URL: ${NEXT_PUBLIC_CIME_RELAY_HTTP_URL:-}
+      NEXT_PUBLIC_CIME_RELAY_WS_URL: ${NEXT_PUBLIC_CIME_RELAY_WS_URL:-}
+    depends_on:
+      cime-flow-relay:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/ready || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  cime-flow-relay:
+    build: .
+    restart: unless-stopped
+    command: npm run start:relay
+    ports:
+      - "${RELAY_PORT:-3001}:3001"
+    environment:
+      NODE_ENV: production
+      RELAY_PORT: 3001
+      INSTANCE_ID: ${INSTANCE_ID:-}
+      MAX_SESSIONS: ${MAX_SESSIONS:-1000}
+      MAX_CHANNEL_HUBS: ${MAX_CHANNEL_HUBS:-300}
+      MAX_CLIENTS_PER_CHANNEL: ${MAX_CLIENTS_PER_CHANNEL:-100}
+      MAX_WS_PER_IP: ${MAX_WS_PER_IP:-50}
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-60000}
+      HTTP_RATE_LIMIT_MAX: ${HTTP_RATE_LIMIT_MAX:-240}
+      CHANNEL_LOOKUP_RATE_LIMIT_MAX: ${CHANNEL_LOOKUP_RATE_LIMIT_MAX:-60}
+      CHANNEL_IDLE_TTL_MS: ${CHANNEL_IDLE_TTL_MS:-30000}
+      BATCH_INTERVAL_MS: ${BATCH_INTERVAL_MS:-100}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      REDIS_CONNECT_TIMEOUT_MS: ${REDIS_CONNECT_TIMEOUT_MS:-1500}
+      METRICS_TOKEN: ${METRICS_TOKEN:-}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+      DRAIN_TIMEOUT_MS: ${DRAIN_TIMEOUT_MS:-30000}
+      LOG_IP_MODE: ${LOG_IP_MODE:-hash}
+      IP_HASH_SALT: ${IP_HASH_SALT:-}
+      MOCK_CIME_UPSTREAM: ${MOCK_CIME_UPSTREAM:-false}
+      MOCK_MESSAGE_INTERVAL_MS: ${MOCK_MESSAGE_INTERVAL_MS:-100}
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3001/api/ready || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    # appendonly no + save "" : 디스크 영속성을 비활성화합니다.
+    # CimeFlow의 Redis는 레이트 리밋 카운터/하트비트 전용으로만 사용되므로
+    # 재시작 시 카운터가 초기화되는 것은 의도된 동작입니다.
+    command: redis-server --appendonly no --save ""
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

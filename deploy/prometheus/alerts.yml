@@ -1,0 +1,74 @@
+groups:
+  - name: cime-flow-relay
+    rules:
+      - alert: CimeFlowRelayNotReady
+        expr: cime_flow_relay_ready == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay is not ready
+          description: The relay is draining, saturated, or otherwise not accepting new sessions.
+
+      - alert: CimeFlowRelayHighSessionUsage
+        expr: cime_flow_relay_sessions / cime_flow_relay_max_sessions > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay session usage is high
+          description: Active relay sessions are above 85 percent of the configured limit.
+
+      - alert: CimeFlowRelayHighHubUsage
+        expr: cime_flow_relay_active_hubs / cime_flow_relay_max_channel_hubs > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay channel hub usage is high
+          description: Active channel hubs are above 85 percent of the configured limit.
+
+      - alert: CimeFlowRelayRejectedWebSockets
+        expr: rate(cime_flow_relay_ws_rejected_total[5m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay is rejecting WebSocket upgrades
+          description: WebSocket rejects are above one per second over five minutes.
+
+      - alert: CimeFlowRelayUpstreamReconnects
+        expr: rate(cime_flow_relay_upstream_reconnect_total[5m]) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay upstream reconnects are elevated
+          description: ci.me IVS upstream reconnects are higher than expected.
+
+      - alert: CimeFlowRelayTokenFailures
+        expr: rate(cime_flow_relay_token_fetch_failed_total[5m]) / clamp_min(rate(cime_flow_relay_token_fetch_total[5m]), 1) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay token fetch failures are elevated
+          description: More than 20 percent of ci.me chat token fetch attempts are failing.
+
+      - alert: CimeFlowRelayRedisErrors
+        expr: rate(cime_flow_relay_redis_errors_total[5m]) > 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay Redis errors detected
+          description: Redis operations are failing. Distributed limits may fall back to local memory behavior.
+
+      - alert: CimeFlowRelayMemoryHigh
+        expr: cime_flow_relay_memory_megabytes > 384
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: CimeFlow relay memory usage is high
+          description: Relay heap memory has stayed above 384 MB for ten minutes.

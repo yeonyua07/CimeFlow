@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - alerts.yml
+
+scrape_configs:
+  - job_name: cime-flow-relay
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - relay-1:3001
+          - relay-2:3001
+          - relay-3:3001
+    # If METRICS_TOKEN is configured on the relay, uncomment this line.
+    # bearer_token: replace-with-your-metrics-token

@@ -1,0 +1,62 @@
+{
+  "name": "cime-flow",
+  "version": "1.0.0",
+  "description": "ci.me 채팅 기반 실시간 참여 진행 도구",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "next dev",
+    "dev:ui": "next dev",
+    "dev:relay": "node relay-server.js",
+    "build": "next build",
+    "check": "node --check server.js && node --check relay-server.js && node --check scripts/load-test-relay.js",
+    "ops:load": "node scripts/load-test-relay.js",
+    "start": "node server.js",
+    "start:ui": "node server.js",
+    "start:relay": "node relay-server.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
+    "@next/third-parties": "^16.2.4",
+    "@types/react-window": "^1.8.8",
+    "dotenv": "^17.2.3",
+    "ioredis": "^5.8.2",
+    "next": "^16.2.4",
+    "react": "^18",
+    "react-confetti-explosion": "^2.1.2",
+    "react-custom-roulette": "^1.4.1",
+    "react-dom": "^18",
+    "react-window": "^1.8.11",
+    "styled-components": "^6.4.1",
+    "ws": "^8.20.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/styled-components": "^5.1.34",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yeonyua07/CimeFlow.git"
+  },
+  "homepage": "https://github.com/yeonyua07/CimeFlow",
+  "bugs": {
+    "url": "https://github.com/yeonyua07/CimeFlow/issues"
+  },
+  "engines": {
+    "node": ">=20.9.0",
+    "npm": ">=10"
+  }
+}
