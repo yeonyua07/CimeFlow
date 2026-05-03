@@ -163,7 +163,7 @@ curl http://localhost:3000/api/health
 ```
 
 상세 운영 매뉴얼은 다음 문서들을 참고하세요:
-- [운영 런북 (Operations Runbook)](docs/OPERATIONS.md)
+- [운영 가이드](docs/OPERATIONS.md)
 - [개인정보 처리 지침 (Privacy Guide)](docs/PRIVACY.md)
 - [릴리스 및 롤백 가이드 (Release/Rollback)](docs/RELEASE.md)
 

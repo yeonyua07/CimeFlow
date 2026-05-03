@@ -1,4 +1,4 @@
-# 운영 런북 (Operations Runbook)
+# 운영 가이드
 
 이 문서는 CimeFlow를 실제 프로덕션 환경에서 운영하는 담당자를 위한 가이드입니다.
 
@@ -21,7 +21,7 @@
 - **프로메테우스 지표**: `GET http://localhost:3001/metrics`
     - 토큰 설정 시: `Authorization: Bearer <METRICS_TOKEN>` 헤더 필요
 
-## 그레이스풀 셧다운 및 드레인 (Graceful Drain)
+## 안전 종료 및 드레인
 
 업데이트나 점검을 위해 Relay 인스턴스를 종료하기 전, 해당 인스턴스를 드레인 상태로 전환하여 기존 세션을 안전하게 종료하세요.
 
@@ -79,7 +79,7 @@ MOCK_CIME_UPSTREAM=1 npm run start:relay
 npm run ops:load -- --clients 500 --channels 100 --duration 60 --ramp 20
 ```
 
-## 롤백 가이드 (Rollback)
+## 이전 버전 복구 (롤백)
 
 1. **순차 롤백**: 한 번에 모든 인스턴스를 교체하지 말고, 하나씩 드레인 후 이전 버전의 이미지로 교체하세요.
 2. **버전 고정**: 운영 환경에서는 반드시 특정 버전 태그(`v1.0.1` 등)를 사용하여 이미지를 배포하세요.
