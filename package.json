@@ -30,7 +30,7 @@
     "react": "^18",
     "react-confetti-explosion": "^2.1.2",
     "react-custom-roulette": "^1.4.1",
-    "react-dom": "^18",
+    "react-dom": "^19",
     "react-window": "^1.8.11",
     "styled-components": "^6.4.1",
     "ws": "^8.20.0",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react-dom": "^19",
     "@types/styled-components": "^5.1.34",
     "@types/ws": "^8.18.1",
     "typescript": "^5"
