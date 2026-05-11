@@ -34,7 +34,7 @@
     "react-window": "^1.8.11",
     "styled-components": "^6.4.1",
     "ws": "^8.20.0",
-    "zustand": "^4.5.2"
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@types/node": "^20",
